@@ -44,6 +44,25 @@
         </div>
     </div>
 </footer>
-    
+<?php if (isset($showCookieBanner) && $showCookieBanner): ?>
+<div class="cookie-consent-banner">
+    <div class="cookie-consent-content">
+        <div class="cookie-consent-text">
+            <p>Nous utilisons des cookies pour mémoriser vos préférences. En continuant, vous acceptez leur utilisation.</p>
+        </div>
+        <div class="cookie-consent-actions">
+            <form method="POST">
+                <button type="submit" name="cookie_choice" value="reject" class="cookie-consent-btn reject">
+                    Refuser
+                </button>
+                <button type="submit" name="cookie_choice" value="accept" class="cookie-consent-btn accept">
+                    Accepter
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 </body>
 </html>

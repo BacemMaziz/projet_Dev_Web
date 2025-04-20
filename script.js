@@ -342,116 +342,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         drawSun();
     }
-    function createClouds() {
-        const footer = document.querySelector('footer'); // Sélection explicite
-        if (!footer) { // Sécurité si l'élément n'existe pas
-            console.error("Erreur : Élément 'footer' introuvable !");
-            return;
-        }
     
-        const cloudCount = 5;
-        for (let i = 0; i < cloudCount; i++) {
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud';
-            
-            const size = Math.random() * 100 + 50;
-            cloud.style.width = `${size}px`;
-            cloud.style.height = `${size/2}px`;
-            cloud.style.top = `${Math.random() * 100}%`;
-            cloud.style.left = `${Math.random() * 20 - 30}%`;
-            cloud.style.animationDuration = `${Math.random() * 40 + 40}s`;
-            cloud.style.animationDelay = `${Math.random() * 20}s`;
-            
-            footer.appendChild(cloud);
-        }
-    }
     
-    // Exécution après chargement du DOM
-
-
-    /*
-    // Création de nuages
-    function createClouds() {
-        const cloudCount = 5;
-        
-        for (let i = 0; i < cloudCount; i++) {
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud';
-            
-            // Position et taille aléatoire
-            const size = Math.random() * 100 + 50;
-            const posY = Math.random() * 100;
-            const duration = Math.random() * 40 + 40;
-            
-            cloud.style.width = `${size}px`;
-            cloud.style.height = `${size/2}px`;
-            cloud.style.top = `${posY}%`;
-            cloud.style.left = `${Math.random() * 20 - 30}%`;
-            cloud.style.animationDuration = `${duration}s`;
-            cloud.style.animationDelay = `${Math.random() * 20}s`;
-            
-            footer.appendChild(cloud);
-        }
-    }
-    */
-    // Création d'effets de pétales (alternative à la neige)
-
-
-    function createPetals() {
-        const footer = document.querySelector('footer'); // Sélection du footer
-        if (!footer) { // Vérification pour éviter l'erreur
-            console.error("Erreur : aucun élément 'footer' trouvé !");
-            return;
-        }
-    
-        const petalCount = 15;
-        const types = ['🌸', '🍃', '❀', '✿', '🌼'];
-        
-        for (let i = 0; i < petalCount; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            petal.textContent = types[Math.floor(Math.random() * types.length)];
-            
-            // Styles aléatoires
-            petal.style.left = `${Math.random() * 100}%`;
-            petal.style.fontSize = `${Math.random() * 10 + 10}px`;
-            petal.style.opacity = Math.random() * 0.5 + 0.3;
-            petal.style.animation = `fallPetals ${Math.random() * 15 + 10}s linear infinite`;
-            petal.style.animationDelay = `${Math.random() * 5}s`;
-            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
-            
-            footer.appendChild(petal); // Ajout sécurisé
-        }
-    }
-    
-    /*
-    function createPetals() {
-        const petalCount = 15;
-        const types = ['🌸', '🍃', '❀', '✿', '🌼'];
-        
-        for (let i = 0; i < petalCount; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            
-            // Choix aléatoire du type
-            const type = types[Math.floor(Math.random() * types.length)];
-            petal.textContent = type;
-            
-            // Position et animation aléatoire
-            petal.style.left = `${Math.random() * 100}%`;
-            petal.style.fontSize = `${Math.random() * 10 + 10}px`;
-            petal.style.opacity = Math.random() * 0.5 + 0.3;
-            petal.style.animation = `fallPetals ${Math.random() * 15 + 10}s linear infinite`;
-            petal.style.animationDelay = `${Math.random() * 5}s`;
-            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
-            
-            footer.appendChild(petal);
-        }
-    }
-    */
-    // Lancement des animations
-    createClouds();
-    createPetals();
     
     // Ajout de CSS dynamique pour les pétales
     const style = document.createElement('style');
@@ -504,64 +396,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const weatherCanvas = document.getElementById('weatherCanvas');
 
     
-    function createSunRays() {
-        // Sélection sécurisée
-        const weatherContainer = document.getElementById('weather-container');
-        if (!weatherContainer) {
-            console.error("Erreur : L'élément 'weather-container' est introuvable");
-            return;
-        }
+   
     
-        const rayCount = 8;
-        for (let i = 0; i < rayCount; i++) {
-            const ray = document.createElement('div');
-            ray.className = 'weather-element sun-ray';
-            ray.style.left = '85%';
-            ray.style.bottom = '90%';
-            ray.style.transform = `rotate(${i * (360/rayCount)}deg)`;
-            ray.style.animationDelay = `${i * 0.2}s`;
-            weatherContainer.appendChild(ray);
-        }
-    }
-    
-    /*
-    // Créer des rayons de soleil
-    function createSunRays() {
-        const rayCount = 8;
-        for (let i = 0; i < rayCount; i++) {
-            const ray = document.createElement('div');
-            ray.className = 'weather-element sun-ray';
-            ray.style.left = '85%';
-            ray.style.bottom = '90%';
-            ray.style.transform = `rotate(${i * (360/rayCount)}deg)`;
-            ray.style.animationDelay = `${i * 0.2}s`;
-            weatherContainer.appendChild(ray);
-        }
-    }
-    */
-    // Créer des nuages
-    function createClouds() {
-        const cloudCount = 5;
-        for (let i = 0; i < cloudCount; i++) {
-            const cloud = document.createElement('div');
-            cloud.className = 'weather-element weather-cloud';
-            
-            // Taille aléatoire entre 80px et 200px
-            const size = Math.random() * 120 + 80;
-            cloud.style.width = `${size}px`;
-            cloud.style.height = `${size/2}px`;
-            
-            // Position aléatoire
-            cloud.style.top = `${Math.random() * 30}%`;
-            cloud.style.left = `${Math.random() * 20 - 30}%`;
-            
-            // Animation aléatoire
-            cloud.style.animationDuration = `${Math.random() * 40 + 60}s`;
-            cloud.style.animationDelay = `${Math.random() * 20}s`;
-            
-            weatherContainer.appendChild(cloud);
-        }
-    }
     
     // Initialiser le canvas
     function initWeatherCanvas() {
@@ -599,8 +435,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Lancer toutes les animations
     initWeatherCanvas();
-    createSunRays();
-    createClouds();
+    
+    
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -752,4 +588,207 @@ document.addEventListener('DOMContentLoaded', () => {
         const center = canvas.width / 2;
         config.wind = (mouseX - center) / center * 0.3;
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('changeCookiePrefs').addEventListener('click', function() {
+        document.getElementById('cookieModal').style.display = 'block';
+        document.cookie = "cookie_accepted=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+});
+// Gestion du défilement horizontal
+document.addEventListener('DOMContentLoaded', function() {
+    const hourlyScroll = document.querySelector('.hourly-forecast');
+    const scrollPrev = document.querySelector('.scroll-nav-btn.prev');
+    const scrollNext = document.querySelector('.scroll-nav-btn.next');
+    
+    if (hourlyScroll && scrollPrev && scrollNext) {
+        scrollPrev.addEventListener('click', () => {
+            hourlyScroll.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        
+        scrollNext.addEventListener('click', () => {
+            hourlyScroll.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+        
+        // Marquer l'heure actuelle
+        const now = new Date();
+        const currentHour = now.getHours();
+        const hourElements = document.querySelectorAll('.hourly-card');
+        
+        hourElements.forEach(hour => {
+            const hourTime = parseInt(hour.querySelector('.hour-time').textContent.split(':')[0]);
+            if (hourTime === currentHour) {
+                hour.classList.add('current-hour');
+            }
+        });
+    }
+    
+    // Initialisation du graphique (avec Chart.js)
+    initWeatherChart();
+});
+let weatherChart = null;
+
+function initWeatherChart() {
+    const ctx = document.getElementById('weatherChart');
+    if (!ctx) {
+        console.warn('Canvas #weatherChart non trouvé');
+        return;
+    }
+    
+    // Si une instance de graphique existe déjà, la détruire
+    if (weatherChart !== null) {
+        weatherChart.destroy();
+    }
+    
+    // Récupérer les données réelles
+    let hourlyData = [];
+    try {
+        hourlyData = JSON.parse(ctx.dataset.weather || '[]');
+    } catch (e) {
+        console.error('Erreur de parsing des données météo:', e);
+        return;
+    }
+    
+    if (!hourlyData.length) {
+        console.warn('Aucune donnée horaire disponible pour le graphique');
+        return;
+    }
+    
+    // Extraire les labels et données
+    const labels = hourlyData.map(hour => hour.time.split(' ')[1].slice(0, 5));
+    const tempData = hourlyData.map(hour => parseFloat(hour.temp_c));
+    const rainData = hourlyData.map(hour => parseInt(hour.chance_of_rain));
+    
+    weatherChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Température (°C)',
+                    data: tempData,
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim(),
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--color-accent-light').trim(),
+                    borderWidth: 2,
+                    tension: 0.4,
+                    yAxisID: 'y',
+                    fill: true
+                },
+                {
+                    label: 'Probabilité de pluie (%)',
+                    data: rainData,
+                    borderColor: '#9b59b6',
+                    backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    yAxisID: 'y1',
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(18, 18, 18, 0.9)',
+                    titleColor: '#f8f9fa',
+                    bodyColor: '#f8f9fa',
+                    borderColor: '#4a89dc',
+                    borderWidth: 1
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim(),
+                        font: { size: 14, weight: '600' }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Température (°C)',
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim(),
+                        font: { size: 14 }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim()
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    grid: {
+                        drawOnChartArea: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Pluie (%)',
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim(),
+                        font: { size: 14 }
+                    },
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim()
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: getComputedStyle(document.documentElement).getPropertyValue('--color-dark').trim(),
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Modification des deux appels pour n'en avoir qu'un seul
+document.addEventListener('DOMContentLoaded', function() {
+    const hourlyScroll = document.querySelector('.hourly-forecast');
+    const scrollPrev = document.querySelector('.scroll-nav-btn.prev');
+    const scrollNext = document.querySelector('.scroll-nav-btn.next');
+    
+    if (hourlyScroll && scrollPrev && scrollNext) {
+        scrollPrev.addEventListener('click', () => {
+            hourlyScroll.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        
+        scrollNext.addEventListener('click', () => {
+            hourlyScroll.scrollBy({ left: 200, behavior: 'smooth' });
+        });
+        
+        // Marquer l'heure actuelle
+        const now = new Date();
+        const currentHour = now.getHours();
+        const hourElements = document.querySelectorAll('.hourly-card');
+        
+        hourElements.forEach(hour => {
+            const hourTime = parseInt(hour.querySelector('.hour-time').textContent.split(':')[0]);
+            if (hourTime === currentHour) {
+                hour.classList.add('current-hour');
+                hour.scrollIntoView({ block: 'nearest', inline: 'center' });
+            }
+        });
+    }
+    
+    // Une seule initialisation du graphique
+    initWeatherChart();
 });

@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="<?php echo $description; ?>"/>
-    <title><?php echo $titre; ?></title>
-    
-    <?php
+<?php
+/**
+ * Projet : Site de prévision météo pour la France
+ * Module : Développement Web
+ * Réalisateurs : Bacem Maziz, Hamlat Arslane
+ * Tous droits réservés - © 2024
+ */
+
+declare(strict_types=1);
+
 // Fonction pour définir un cookie sécurisé
 function setThemeCookie($theme, $duration = 365) {
     setcookie(
@@ -27,32 +28,39 @@ $theme = $default_theme;
 // 1. Vérification du paramètre GET (changement immédiat)
 if (isset($_GET['theme'])) {
     $theme = ($_GET['theme'] === 'nuit') ? 'nuit' : 'jour';
-    setThemeCookie($theme);
+    if (isset($_COOKIE['cookie_mode']) && $_COOKIE['cookie_mode'] === 'true') {
+        setThemeCookie($theme);
+    }
 } 
 // 2. Sinon vérification du cookie existant
-elseif (isset($_COOKIE['user_theme'])) {
+elseif (isset($_COOKIE['user_theme']) && ($_COOKIE['cookie_accepted'] === 'true')) {
+    $_GET['theme'] = $_COOKIE['user_theme'];
     $theme = ($_COOKIE['user_theme'] === 'nuit') ? 'nuit' : 'jour';
 }
 // 3. Sinon création du cookie avec la valeur par défaut
 else {
-    setThemeCookie($default_theme);
+    if (isset($_COOKIE['cookie_mode']) && $_COOKIE['cookie_mode'] === 'true') {
+        setThemeCookie($default_theme);
+    }
 }
-
-// Affichage de la feuille de style
-echo '<link rel="stylesheet" href="'.$theme.'.css" id="theme-style" />';
-
-// Pour debug (optionnel)
-echo '<!-- Thème actuel: '.htmlspecialchars($theme).' -->';
 ?>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="Images/favicon.png" />
-    <script src="script.js"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="<?php echo htmlspecialchars($description ?? 'Site de prévision météo pour la France'); ?>"/>
+    <title><?php echo htmlspecialchars($titre ?? 'ActuMeteo'); ?></title>
+    <link rel="stylesheet" href="<?php echo htmlspecialchars($theme); ?>.css" id="theme-style"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&amp;display=swap" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="Images/favicon.png"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="script.js" ></script>
+    
 </head>
-<body class="<?php echo $theme; ?>-theme">
-
-<header class="header-ultra">
-        <canvas id="navCanvas" class="nav-canvas"></canvas>
-        
+<body class="<?php echo htmlspecialchars($theme); ?>-theme">
+    <header class="header-ultra">
+        <canvas id="navCanvas" class="nav-canvas" aria-hidden="true"></canvas>
         <div class="nav-container">
             <!-- Logo avec animation -->
             <a href="index.php" class="nav-logo">
@@ -61,37 +69,30 @@ echo '<!-- Thème actuel: '.htmlspecialchars($theme).' -->';
                 <span class="logo-pulse"></span>
             </a>
 
-            <!-- [AJOUTEZ ICI LE BOUTON DE BASULE] -->
             <!-- Bouton de bascule thème -->
             <div class="theme-switcher">
-            <?php
-    $params = [];
-
-    // On change le thème
-    $params['theme'] = ($theme === 'jour') ? 'nuit' : 'jour';
-
-    // On garde les autres paramètres s'ils existent
-    if (isset($_GET['region'])) {
-        $params['region'] = $_GET['region'];
-    }
-    if (isset($_GET['departement'])) {
-        $params['departement'] = $_GET['departement'];
-    }
-    if (isset($_GET['commune'])) {
-        $params['commune'] = $_GET['commune'];
-    }
-
-    // Génère l'URL
-    $href = '?' . http_build_query($params);
-?>
-            <a href="<?= $href ?>"
-            class="theme-toggle <?php echo $theme; ?>"
-            title="Basculer en mode <?php echo ($theme === 'jour') ? 'nuit' : 'jour'; ?>">
-            <span class="theme-icon"><?php echo ($theme === 'jour') ? '🌙' : '☀️'; ?></span>
-            <span class="theme-text">Mode <?php echo ($theme === 'jour') ? 'nuit' : 'jour'; ?></span>
-            </a>
+                <?php
+                $params = [];
+                $params['theme'] = ($theme === 'jour') ? 'nuit' : 'jour';
+                if (isset($_GET['region'])) {
+                    $params['region'] = $_GET['region'];
+                }
+                if (isset($_GET['departement'])) {
+                    $params['departement'] = $_GET['departement'];
+                }
+                if (isset($_GET['commune'])) {
+                    $params['commune'] = $_GET['commune'];
+                }
+                $href = '?' . http_build_query($params);
+                ?>
+                <a href="<?php echo htmlspecialchars($href); ?>"
+                   class="theme-toggle <?php echo htmlspecialchars($theme); ?>"
+                   title="Basculer en mode <?php echo ($theme === 'jour') ? 'nuit' : 'jour'; ?>">
+                    <span class="theme-icon"><?php echo ($theme === 'jour') ? '🌙' : '☀️'; ?></span>
+                    <span class="theme-text">Mode <?php echo ($theme === 'jour') ? 'nuit' : 'jour'; ?></span>
+                </a>
             </div>
-            
+
             <!-- Menu Hamburger Premium -->
             <button class="hamburger-ultra" id="hamburger" aria-label="Menu">
                 <span class="line top"></span>
@@ -99,8 +100,7 @@ echo '<!-- Thème actuel: '.htmlspecialchars($theme).' -->';
                 <span class="line bottom"></span>
             </button>
         </div>
-        
-        
+
         <div class="menu-ultra" id="menu">
             <button class="close-menu-btn" id="closeMenuBtn" aria-label="Fermer le menu">×</button>
             <div class="menu-content">
@@ -127,30 +127,36 @@ echo '<!-- Thème actuel: '.htmlspecialchars($theme).' -->';
                         </a>
                     </li>
                 </ul>
-                
                 <div class="menu-footer">
                     <div class="social-icons">
                         <a href="#" class="social-icon" aria-label="Twitter">
-                            <svg class="icon"><use xlink:href="#twitter-icon"/></svg>
+                            <svg class="icon" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <use xlink:href="#twitter-icon"/>
+                            </svg> 
                         </a>
                         <a href="#" class="social-icon" aria-label="Facebook">
-                            <svg class="icon"><use xlink:href="#facebook-icon"/></svg>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="Instagram">
-                            <svg class="icon"><use xlink:href="#instagram-icon"/></svg>
-                        </a>
+                           <svg class="icon" xmlns:xlink="http://www.w3.org/1999/xlink">
+                           <use xlink:href="#facebook-icon"/>
+                           </svg>
+                       </a>
+                       <a href="#" class="social-icon" aria-label="Instagram">
+                          <svg class="icon" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <use xlink:href="#instagram-icon"/></svg>
+                       </a>
                     </div>
                     <p class="copyright">© 2025 ActuMeteo Pro</p>
                 </div>
             </div>
         </div>
-        
-        <div class="overlay-ultra" id="overlay"></div>
-        
-        <!-- Barre de progression météo -->
+
+        <div class="overlay-ultra" id="overlay">
+
+        </div>
         <div class="weather-progress">
             <div class="weather-track">
-                <div class="weather-indicator" data-weather="sunny"></div>
+                <div class="weather-indicator" data-weather="sunny">
+
+                </div>
             </div>
         </div>
-    </header>
+</header>
